@@ -1,95 +1,59 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link'
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import { cxx } from '@jk2908/cxx'
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+import { Title } from '#/ui/title'
+import { BlockButton } from '#/ui/block-button'
+import { Icon } from '#/ui/icon'
+
+import { DESCRIPTION } from '#/lib/config'
+
+const [css, styles, href] = cxx`
+	.welcome {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-12x);
+
+		@media (width >= 720px) {
+			gap: var(--space-16x);
+		}
+	}
+
+	.intro {
+		font-size: var(--text-2xl);
+		font-weight: 700;
+		margin-inline: auto;
+		max-inline-size: 50ch;
+		text-align: center;
+		text-wrap: balance;
+
+		@media (width >= 720px) {
+			font-size: var(--text-3xl);
+		}
+	}
+
+	.cta {
+		margin-inline: auto;
+	}
+`
+
+export default async function Page() {
+	return (
+		<>
+			<Title prefix="Home" />
+			<h1 className="sr-only">Home</h1>
+
+			<div className={styles.welcome}>
+				<p className={styles.intro}>{`Hi 👋 ${DESCRIPTION}.`}</p>
+
+				<BlockButton as={Link} href="/archive/all" className={styles.cta}>
+					View my work <Icon name="arrow-right" title="Go" size={20} />
+				</BlockButton>
+			</div>
+
+			<style href={href} precedence="medium">
+				{css}
+			</style>
+		</>
+	)
 }

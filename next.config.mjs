@@ -1,4 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import { withCxx } from '@jk2908/cxx/next'
 
-export default nextConfig;
+const config = {
+	reactStrictMode: true,
+	experimental: {
+		ppr: 'incremental',
+		reactCompiler: true,
+	},
+}
+
+export default withCxx(config)

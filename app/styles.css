@@ -1,0 +1,176 @@
+@layer base, utils;
+
+@layer base {
+  :root {    
+    --white: 255 255 255;    
+    --neutral-25: 253 253 253;
+    --neutral-50: 250 250 250;
+    --neutral-75: 247 247 247;
+    --neutral-100: 240 240 240;
+    --neutral-200: 229 229 229;
+    --neutral-300: 209 209 209;
+    --neutral-400: 175 175 175;
+    --neutral-500: 115 115 115;
+    --neutral-600: 77 77 77;
+    --neutral-700: 51 51 51;
+    --neutral-800: 38 38 38;
+    --neutral-900: 20 20 20;
+    --neutral-925: 10 10 10;
+    --neutral-950: 5 5 5;
+
+    --primary: 90 130 22;
+
+    --space-1\/2: calc(var(--space) / 2);
+    --space: .25rem;
+    --space-2x: calc(var(--space) * 2);
+    --space-3x: calc(var(--space) * 3);
+    --space-4x: calc(var(--space) * 4);
+    --space-5x: calc(var(--space) * 5);
+    --space-6x: calc(var(--space) * 6);
+    --space-7x: calc(var(--space) * 7);
+    --space-8x: calc(var(--space) * 8);
+    --space-9x: calc(var(--space) * 9);
+    --space-10x: calc(var(--space) * 10);
+    --space-11x: calc(var(--space) * 11);
+    --space-12x: calc(var(--space) * 12);
+    --space-13x: calc(var(--space) * 13);
+    --space-14x: calc(var(--space) * 14);
+    --space-15x: calc(var(--space) * 15);
+    --space-16x: calc(var(--space) * 16);
+    --space-17x: calc(var(--space) * 17);
+    --space-18x: calc(var(--space) * 18);
+
+    --app-bg: var(--white);
+    --app-fg: var(--neutral-950);
+
+    --keyline: var(--neutral-200);
+
+    --font-serif: 'Sen', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif';
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+
+    --wrapper-max: 65rem;
+    --wrapper-px: var(--space-5x);
+
+    --text-2xs: .625rem;
+    --text-xs: .75rem;
+    --text-sm: .875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+
+    --tracking-tight: -.05em;
+    --tracking-wide: .05em;
+    --tracking-wider: .1em;
+    --tracking-widest: .2em;
+
+    --radius-2xs: 2px;
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    scrollbar-color: rgb(var(--neutral-950) / 100%) rgb(var(--app-bg) / 100%);
+    scrollbar-width: thin;
+  }
+
+  html {
+    block-size: 100%;
+  }
+
+  body {
+    background-color: rgb(var(--app-bg) / 100%);
+    color: rgb(var(--app-fg) / 100%);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-serif);
+    line-height: 1.5;
+    min-block-size: 100%;
+  }
+
+  main {
+    flex-grow: 1;
+    padding-block: var(--space-5x);
+
+    @media (width >= 720px) {
+      padding-block: var(--space-10x);
+    }
+  }
+
+  :where(a) {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .15em;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: rgb(var(--primary) / 100%);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+@layer utils {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .paused {
+    animation-play-state: paused;
+  }
+
+  .link {
+    text-decoration: underline;
+    text-underline-offset: .2em;
+
+    @media (hover: hover) {
+      &:hover {
+        text-decoration: none;
+      }
+    }  
+  }
+
+  .list {
+    list-style-position: inside;
+    list-style-type: none;
+
+    > li {  
+      &::marker {
+        content: '+ ';
+      }
+    }
+  }
+
+  .sr-only {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+}

@@ -1,22 +1,40 @@
 {
-  "name": "helena-designs-2",
+  "name": "helena-traill",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "faust build",
+    "generate": "concurrently \"faust generatePossibleTypes\" \"graphql-codegen\"",
+    "stylesheet": "faust generateGlobalStylesheet",
+    "start": "faust start"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.15"
+    "@apollo/client": "^3.11.8",
+    "@faustwp/cli": "^3.1.0",
+    "@faustwp/core": "^3.1.0",
+    "@faustwp/experimental-app-router": "^0.4.0",
+    "babel-plugin-react-compiler": "^0.0.0-experimental-e504e66-20241010",
+    "clsx": "^2.1.1",
+    "graphql": "^16.9.0",
+    "next": "^15.0.0-canary.183",
+    "react": "^19.0.0-rc-70fb1363-20241010",
+    "react-dom": "^19.0.0-rc-70fb1363-20241010"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@graphql-codegen/cli": "^5.0.3",
+    "@jk2908/cxx": "^0.1.1",
+    "@types/node": "20.8.9",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/webpack": "^5.28.5",
+    "eslint": "8.52.0",
+    "eslint-config-next": "14.0.0",
+    "lightningcss": "^1.26.0",
+    "typescript": "5.2.2"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
   }
 }
