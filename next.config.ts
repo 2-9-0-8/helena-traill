@@ -7,7 +7,6 @@ const config = {
 	experimental: {
 		ppr: 'incremental',
 		reactCompiler: true,
-		dynamicIO: true,
 	},
 	images: {
     domains: [process.env.NEXT_PUBLIC_IMAGE_DOMAIN ?? ''],
