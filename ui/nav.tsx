@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import { cxx } from '@jk2908/cxx'
 import { clsx } from 'clsx'
@@ -37,6 +37,7 @@ const [css, styles, href] = cxx`
 			background-color: transparent;
 			display: block;
 			inset: auto;
+			pointer-events: auto;
 			position: static;
 			translate: 0px;
 			z-index: auto;
@@ -116,21 +117,23 @@ export function Nav({
 
 	return (
 		<nav {...rest}>
-			<BlockButton
-				ref={openRef}
-				onClick={() => {
-					flushSync(() => {
-						setOpen(true)
-					})
+			{!mq && (
+				<BlockButton
+					ref={openRef}
+					onClick={() => {
+						flushSync(() => {
+							setOpen(true)
+						})
 
-					closeRef.current?.focus()
-				}}
-				aria-expanded={isOpen}
-				className={clsx(styles.open, styles.hamburger)}
-			>
-				<Icon name="hamburger" title="Open" size={24} />
-				<span className="sr-only">Open menu</span>
-			</BlockButton>
+						closeRef.current?.focus()
+					}}
+					aria-expanded={isOpen}
+					className={clsx(styles.open, styles.hamburger)}
+				>
+					<Icon name="hamburger" title="Open" size={24} />
+					<span className="sr-only">Open menu</span>
+				</BlockButton>
+			)}
 
 			<div
 				ref={navRef}
@@ -138,15 +141,17 @@ export function Nav({
 				data-state={!mq ? (isOpen ? 'open' : 'closed') : undefined}
 				inert={!mq ? !isOpen : undefined}
 			>
-				<BlockButton
-					ref={closeRef}
-					onClick={() => setOpen(false)}
-					autoFocus
-					className={clsx(styles.close, styles.hamburger)}
-				>
-					<Icon name="x" title="Close" size={24} />
-					<span className="sr-only">Close menu</span>
-				</BlockButton>
+				{!mq && (
+					<BlockButton
+						ref={closeRef}
+						onClick={() => setOpen(false)}
+						autoFocus
+						className={clsx(styles.close, styles.hamburger)}
+					>
+						<Icon name="x" title="Close" size={24} />
+						<span className="sr-only">Close menu</span>
+					</BlockButton>
+				)}
 
 				<ul>
 					{items?.nodes.map(
