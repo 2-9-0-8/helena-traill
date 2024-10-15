@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import { Sen } from 'next/font/google'
 
 import { ErrorBoundary } from 'react-error-boundary'
+import { clsx } from 'clsx'
 
 import { Providers } from '#/ui/providers'
 import { Header } from '#/ui/header'
@@ -16,13 +18,18 @@ export const metadata: Metadata = {
 	icons: [{ url: '/assets/favicon.svg', sizes: 'any', type: 'image/svg+xml' }],
 }
 
+const SenFont = Sen({
+	variable: '--sen-font',
+	weight: ['400', '600', '700']
+})
+
 export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" className={clsx(SenFont.variable)}>
 			<body>
 				<Providers>
 					<Wrapper>
