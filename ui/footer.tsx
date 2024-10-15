@@ -5,7 +5,7 @@ import { clsx } from 'clsx'
 
 import { Icon, type Icon as IconType } from '#/ui/icon'
 
-import { getLayout } from '#/lib/queries'
+import { getLayout } from '#/lib/queries.server'
 
 const [css, styles, href] = cxx`
   .footer {

@@ -4,12 +4,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { clsx } from 'clsx'
 import { cxx } from '@jk2908/cxx'
+import mergeRefs from 'merge-refs'
 
 import { GradientMask } from '#/ui/gradient-mask'
 
 const [css, styles, href] = cxx`
 	.scrollable {
-		overflow-x: auto;
 		position: relative;
 
 		> div {
@@ -22,16 +22,27 @@ const [css, styles, href] = cxx`
 
 export function Scrollable({
 	children,
+	bgColour,
+	scrollbars,
 	mode = 'manual',
 	speed = 1500 / 60,
 	wait,
 	className,
+	style,
+	wrapperRef: extWrapperRef,
+	scrollRef: extScrollRef,
+	onScrollChange,
 	...rest
 }: {
 	children: React.ReactNode
+	bgColour: string
+	scrollbars?: { thumb: string; track: string; width: 'thin' | 'auto' }
 	mode?: 'auto' | 'manual'
 	speed?: number
 	wait?: number
+	wrapperRef?: React.RefObject<HTMLDivElement | null>
+	scrollRef?: React.RefObject<HTMLDivElement | null>
+	onScrollChange?: (el: HTMLElement) => void
 } & React.ComponentPropsWithRef<'div'>) {
 	const wrapperRef = useRef<HTMLDivElement>(null)
 	const scrollRef = useRef<HTMLDivElement>(null)
@@ -50,9 +61,11 @@ export function Scrollable({
 
 		const { scrollLeft, scrollWidth, clientWidth } = el
 
+		onScrollChange?.(el)
+		
 		setLeftEdgeVisible(scrollLeft > 0)
 		setRightEdgeVisible(Math.ceil(scrollLeft) < scrollWidth - clientWidth)
-	}, [])
+	}, [onScrollChange])
 
 	useEffect(() => {
 		const el = scrollRef.current
@@ -113,14 +126,28 @@ export function Scrollable({
 	const pause = () => setPaused(true)
 
 	return (
-		<div className={clsx(styles.scrollable, className)} ref={wrapperRef} {...rest}>
-			<GradientMask isVisible={isLeftEdgeVisible} colour="rgb(var(--app-bg) / 100%)" />
+		<div
+			ref={mergeRefs(extWrapperRef, wrapperRef)}
+			className={clsx(styles.scrollable, className)}
+			{...rest}
+		>
+			<GradientMask isVisible={isLeftEdgeVisible} colour={bgColour} />
 
-			<div ref={scrollRef} onScroll={onScroll} onMouseEnter={pause} onMouseLeave={play}>
+			<div
+				ref={mergeRefs(extScrollRef, scrollRef)}
+				onScroll={onScroll}
+				onMouseEnter={pause}
+				onMouseLeave={play}
+				style={{
+					scrollbarColor: `${scrollbars?.thumb} ${scrollbars?.track}`,
+					scrollbarWidth: scrollbars?.width,
+					...style
+				}}
+			>
 				{children}
 			</div>
 
-			<GradientMask isVisible={isRightEdgeVisible} toMirrored colour="rgb(var(--app-bg) / 100%)" />
+			<GradientMask isVisible={isRightEdgeVisible} toMirrored colour={bgColour} />
 
 			<style href={href} precedence="medium">
 				{css}

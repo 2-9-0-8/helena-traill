@@ -1,42 +1,30 @@
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { notFound } from 'next/navigation'
 
-import { gql } from '@apollo/client'
-import { getClient } from '@faustwp/experimental-app-router'
+import { ErrorBoundary } from 'react-error-boundary'
 
-import type { GetPostsQuery } from '#/__generated__/graphql'
+import { PostsList } from '#/ui/posts-list'
+import { Title } from '#/ui/title'
+
+import { capitalise } from '#/lib/utils'
+import { isValidCategory } from '#/lib/utils.server'
 
 export default async function Page({ params }: { params: Promise<{ category: string }> }) {
-	const client = await getClient()
 	const category = (await params).category
 
-	const { data } = await client.query<GetPostsQuery>({
-		query: gql`
-			query GetPosts($category: String!) {
-				posts(where: { categoryName: $category }) {
-					nodes {
-						id
-						title
-						uri
-						slug
-					}
-				}
-			}
-    `,
-		variables: {
-      category,
-    },
-	})
-
-	if (!data?.posts?.nodes.length) throw redirect('/archive/all')
+	if (!(await isValidCategory(category))) notFound()
 
 	return (
 		<>
-			{data?.posts?.nodes.map(p => (
-				<li key={p.slug}>
-					<Link href={`/${p.slug}`}>{p.title}</Link>
-				</li>
-			))}
+			<Title prefix={capitalise(category)} />
+
+			<ErrorBoundary
+				fallback={<p style={{ textAlign: 'center' }}>Failed to load {category} posts</p>}
+			>
+				<Suspense fallback={<p style={{ textAlign: 'center' }}>Loading archive...</p>}>
+					<PostsList category={category} />
+				</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

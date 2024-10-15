@@ -1,18 +1,15 @@
 import { ArchiveNav } from '#/ui/archive-nav'
-import { Scrollable } from '#/ui/scrollable'
 
-import { getCategories } from '#/lib/queries'
+import { getCategories } from '#/lib/queries.server'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const data = await getCategories()
+	const data = await getCategories()
 
-  return (
-    <>
-      <Scrollable style={{ marginBlockEnd: 'var(--space-10x)' }}>
-        <ArchiveNav data={data} />
-      </Scrollable>
+	return (
+		<>
+			<ArchiveNav data={data} style={{ marginBlockEnd: 'var(--space-8x)' }} />
 
-      {children}
-    </>
-  )
+			{children}
+		</>
+	)
 }

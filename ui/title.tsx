@@ -1,4 +1,4 @@
-import { getLayout } from '#/lib/queries'
+import { getLayout } from '#/lib/queries.server'
 import { NAME } from '#/lib/config'
 
 export async function Title({ prefix }: { prefix: string }) {

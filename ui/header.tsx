@@ -6,6 +6,8 @@ import { clsx } from 'clsx'
 import { Logo } from '#/ui/logo'
 import { Nav } from '#/ui/nav'
 
+import { getLayout } from '#/lib/queries.server'
+
 const [css, styles, href] = cxx`
   .header {
     --cols: 2;
@@ -37,14 +39,16 @@ const [css, styles, href] = cxx`
   }
 `
 
-export function Header({ className, ...rest }: React.ComponentPropsWithRef<'header'>) {
+export async function Header({ className, ...rest }: React.ComponentPropsWithRef<'header'>) {
+  const { primaryMenuItems } = await getLayout()
+
 	return (
 		<header className={clsx(styles.header, className)} {...rest}>
 			<Link href="/" className={styles.logo}>
 				<Logo />
 			</Link>
 
-			<Nav className={styles.nav} />
+			<Nav items={primaryMenuItems} className={styles.nav} />
 
 			<style href={href} precedence="medium">
 				{css}

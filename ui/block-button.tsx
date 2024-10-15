@@ -43,7 +43,7 @@ export type Props = {
 export type ButtonProps<C extends React.ElementType> = PolymorphicComponentPropsWithRef<C, Props>
 
 const [css, styles, href] = cxx`
-  .block-button {
+  .block-button, :global(.btn) {
     align-items: center;
     background-color: var(--block-button-bg, rgb(var(--primary) / 100%));
     border: 1px solid var(--block-button-bg, rgb(var(--primary) / 100%));
@@ -58,6 +58,12 @@ const [css, styles, href] = cxx`
     text-decoration: none;
     text-transform: uppercase;
 
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        --block-button-bg: rgb(var(--neutral-950) / 100%);
+      }
+    }
+
     &[data-variant='primary'] {
       --block-button-bg: rgb(var(--primary) / 100%);
       --block-button-clr: rgb(var(--white) / 100%);
@@ -68,6 +74,11 @@ const [css, styles, href] = cxx`
         }
       }
     } 
+
+    &[aria-disabled=true] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 `
 
@@ -85,7 +96,7 @@ export function BlockButton<C extends React.ElementType = typeof DEFAULT_ELEMENT
     <Cmp
       ref={ref}
       data-variant={variant}
-      className={clsx(styles['block-button'], className)}
+      className={clsx(styles['block-button'], 'btn', className)}
       {...rest}>
       {children}
 

@@ -5,6 +5,8 @@ export type Icon =
   | 'substack'
   | 'tiktok'
   | 'youtube'
+  | 'hamburger'
+  | 'x'
 
 export type Props = {
   name: Icon
